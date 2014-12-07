@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import net.reshetnikov.DBService.InteractionService;
 import net.reshetnikov.Logic.*;
 import net.reshetnikov.MainApp;
@@ -99,9 +100,13 @@ public class DatabaseOverviewController {
     @FXML
     private TableColumn reviewNumber;
     @FXML
-    private TableColumn reviewZoneTitle;
+    private TableColumn reviewFoodTitle;
     @FXML
-    private TableColumn reviewPopulation;
+    private TableColumn reviewFoodCount;
+    @FXML
+    private TableColumn reviewDateOfDelivery;
+    @FXML
+    private TableColumn reviewAimalTypeFood;
 
     @FXML
     private Button addButton;
@@ -142,6 +147,10 @@ public class DatabaseOverviewController {
     private DatePicker datePicker1;
     @FXML
     private DatePicker datePicker2;
+    @FXML
+    private Label dateLabel1;
+    @FXML
+    private Label dateLabel2;
 
 
     @FXML
@@ -168,6 +177,11 @@ public class DatabaseOverviewController {
         showFoodDetails(null);
         showOverseerDetails(null);
         showZoneDetails(null);
+        collectButton.setVisible(false);
+        dateLabel1.setVisible(false);
+        dateLabel2.setVisible(false);
+        datePicker1.setVisible(false);
+        datePicker2.setVisible(false);
     }
 
     @FXML
@@ -376,9 +390,13 @@ public class DatabaseOverviewController {
         zoneTitle.setCellValueFactory(new PropertyValueFactory("zoneTitle"));
         population.setCellValueFactory(new PropertyValueFactory("population"));
 
+
         reviewNumber.setCellValueFactory(new PropertyValueFactory("reviewNumber"));
-        reviewZoneTitle.setCellValueFactory(new PropertyValueFactory("reviewZoneTitle"));
-        reviewPopulation.setCellValueFactory(new PropertyValueFactory("reviewPopulation"));
+        reviewFoodTitle.setCellValueFactory(new PropertyValueFactory("reviewFoodTitle"));
+        reviewFoodCount.setCellValueFactory(new PropertyValueFactory("reviewFoodCount"));
+        reviewDateOfDelivery.setCellValueFactory(new PropertyValueFactory("reviewDateOfDelivery"));
+        reviewAimalTypeFood.setCellValueFactory(new PropertyValueFactory("reviewAimalTypeFood"));
+
     }
 
     public void delete() {
@@ -468,35 +486,43 @@ public class DatabaseOverviewController {
 
     }
 
-    public void hideButton(){
+    public void hideElements(){
         addButton.setVisible(false);
         editButton.setVisible(false);
         deleteButton.setVisible(false);
         refreshButton.setVisible(false);
         collectButton.setVisible(true);
-
+        dateLabel1.setVisible(true);
+        dateLabel2.setVisible(true);
+        datePicker1.setVisible(true);
+        datePicker2.setVisible(true);
     }
 
-    public void showButton(){
+    public void showElements(){
         try {
             if (!addButton.isVisible()) addButton.setVisible(true);
             if (!editButton.isVisible()) editButton.setVisible(true);
             if (!deleteButton.isVisible()) deleteButton.setVisible(true);
             if (!refreshButton.isVisible()) refreshButton.setVisible(true);
             if (collectButton.isVisible()) collectButton.setVisible(false);
+            if (dateLabel1.isVisible())dateLabel1.setVisible(false);
+            if (dateLabel2.isVisible())dateLabel2.setVisible(false);
+            if (datePicker1.isVisible())datePicker1.setVisible(false);
+            if (datePicker2.isVisible())datePicker2.setVisible(false);
         }
         catch (NullPointerException e){
             System.out.println("NullPointer When Started");
         }
 
     }
+
     private ObservableList data = FXCollections.observableArrayList();
     public void collectStatics(){
-        data=animalTable.getItems();
+        data=foodTable.getItems();
         for (int i=0; i<data.size();i++){
            System.out.println(data.get(i));
         }
-
+        reviewTable.setItems(data);
     }
 }
 

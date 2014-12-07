@@ -14,7 +14,7 @@
                     <children>
                         <TabPane fx:id="tabPane" prefHeight="478.0" prefWidth="380.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <tabs>
-                                <Tab fx:id="animalTab" onSelectionChanged="#showButton" text="Животные">
+                                <Tab fx:id="animalTab" onSelectionChanged="#showElements" text="Животные">
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                             <children>
@@ -35,7 +35,7 @@
                                         </AnchorPane>
                                     </content>
                                 </Tab>
-                                <Tab fx:id="animalTypeTab" onSelectionChanged="#showButton" text="Тип животных">
+                                <Tab fx:id="animalTypeTab" onSelectionChanged="#showElements" text="Тип животных">
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                             <children>
@@ -54,7 +54,7 @@
                                         </AnchorPane>
                                     </content>
                                 </Tab>
-                                <Tab fx:id="foodTab" onSelectionChanged="#showButton" text="Пища">
+                                <Tab fx:id="foodTab" onSelectionChanged="#showElements" text="Пища">
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                             <children>
@@ -74,7 +74,7 @@
                                         </AnchorPane>
                                     </content>
                                 </Tab>
-                                <Tab fx:id="overseersTab" onSelectionChanged="#showButton" text="Надзиратель">
+                                <Tab fx:id="overseersTab" onSelectionChanged="#showElements" text="Надзиратель">
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                             <children>
@@ -96,7 +96,7 @@
                                         </AnchorPane>
                                     </content>
                                 </Tab>
-                                <Tab fx:id="zoneTab" onSelectionChanged="#showButton" text="Зона">
+                                <Tab fx:id="zoneTab" onSelectionChanged="#showElements" text="Зона">
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                             <children>
@@ -114,7 +114,7 @@
                                         </AnchorPane>
                                     </content>
                                 </Tab>
-                        <Tab fx:id="reviewTab" onSelectionChanged="#hideButton" text="Обзор">
+                        <Tab fx:id="reviewTab" onSelectionChanged="#hideElements" text="Обзор">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -124,8 +124,10 @@
                                        </columnResizePolicy>
                                        <columns>
                                           <TableColumn fx:id="reviewNumber" editable="false" prefWidth="20.0" text="#" />
-                                          <TableColumn fx:id="reviewZoneTitle" prefWidth="431.0" text="Название зоны обитания животных" />
-                                          <TableColumn fx:id="reviewPopulation" prefWidth="431.0" text="Популяция" />
+                                          <TableColumn fx:id="reviewFoodTitle" prefWidth="431.0" text="Название пищи" />
+                                          <TableColumn fx:id="reviewFoodCount" prefWidth="431.0" text="Запас пищи" />
+                                          <TableColumn fx:id="reviewDateOfDelivery" prefWidth="108.0" text="Дата доставки" />
+                                          <TableColumn fx:id="reviewAimalTypeFood" prefWidth="125.0" text="Тип потребителей" />
                                        </columns>
                                     </TableView>
                                  </children>
@@ -181,9 +183,11 @@
                                         <Button fx:id="refreshButton" layoutX="64.0" layoutY="536.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
                                     </children>
                                 </HBox>
-                        <Button fx:id="collectButton" layoutX="132.0" layoutY="500.0" mnemonicParsing="false" onAction="#collectStatics" text="Collect" />
-                        <DatePicker fx:id="datePicker1" layoutX="83.0" layoutY="402.0" />
-                        <DatePicker fx:id="datePicker2" layoutX="83.0" layoutY="457.0" />
+                        <Button fx:id="collectButton" layoutX="132.0" layoutY="540.0" mnemonicParsing="false" onAction="#collectStatics" text="Collect" />
+                        <DatePicker fx:id="datePicker1" layoutX="83.0" layoutY="424.0" />
+                        <DatePicker fx:id="datePicker2" layoutX="83.0" layoutY="493.0" />
+                        <Label fx:id="dateLabel1" layoutX="18.0" layoutY="428.0" text="Период с:" />
+                        <Label fx:id="dateLabel2" layoutX="55.0" layoutY="497.0" text="по:" />
                             </children>
                         </AnchorPane>
                     </content>
