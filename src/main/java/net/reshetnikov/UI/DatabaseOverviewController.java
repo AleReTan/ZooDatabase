@@ -5,14 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
 import net.reshetnikov.DBService.InteractionService;
 import net.reshetnikov.Logic.*;
 import net.reshetnikov.MainApp;
 import org.controlsfx.dialog.Dialogs;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseOverviewController {
 
@@ -183,7 +179,7 @@ public class DatabaseOverviewController {
         datePicker1.setVisible(false);
         datePicker2.setVisible(false);
     }
-
+    //обработка кнопки добавить
     @FXML
     private void newObject() {
         Object tempObject = new Object();
@@ -205,7 +201,7 @@ public class DatabaseOverviewController {
 
         MainApp.showEditDialog(tempObject);
     }
-
+    //обработка кнопки изменить
     @FXML
     private void editObject() {
         Object selectedObject = null;
@@ -237,7 +233,7 @@ public class DatabaseOverviewController {
                     .showWarning();
         }
     }
-
+    //отображение данных таблицы животные
     private void showAnimalDetails(Animal animal) {
         labelColumn1.setText(animalName.getText());
         labelColumn2.setText(age.getText());
@@ -261,7 +257,7 @@ public class DatabaseOverviewController {
             contentLable6.setText("");
         }
     }
-
+    //отображение данных таблицы типы животных
     private void showAnimalTypeDetails(AnimalType animalType) {
         labelColumn1.setText(animalTypeTitle.getText());
         labelColumn2.setText(animalCount.getText());
@@ -285,7 +281,7 @@ public class DatabaseOverviewController {
             contentLable6.setText("");
         }
     }
-
+    //отображение данных таблицы пища
     private void showFoodDetails(Food food) {
         labelColumn1.setText(foodTitle.getText());
         labelColumn2.setText(foodCount.getText());
@@ -309,7 +305,7 @@ public class DatabaseOverviewController {
             contentLable6.setText("");
         }
     }
-
+    //отображение данных таблицы наблюдатели
     private void showOverseerDetails(Overseer overseer) {
         labelColumn1.setText(name.getText());
         labelColumn2.setText(lastName.getText());
@@ -333,7 +329,7 @@ public class DatabaseOverviewController {
             contentLable6.setText("");
         }
     }
-
+    //отображение данных таблицы зоны
     private void showZoneDetails(Zone zone) {
         labelColumn1.setText(zoneTitle.getText());
         labelColumn2.setText(population.getText());
@@ -398,7 +394,7 @@ public class DatabaseOverviewController {
         reviewAimalTypeFood.setCellValueFactory(new PropertyValueFactory("reviewAimalTypeFood"));
 
     }
-
+    //обработка кнопки удалить
     public void delete() {
         if (animalTab.isSelected()) {
             int selectedIndex = animalTable.getSelectionModel().getSelectedIndex();
@@ -476,16 +472,15 @@ public class DatabaseOverviewController {
         }
         refresh();
     }
-
+    //обработка кнопки обновить
     public void refresh() {
         if (animalTab.isSelected()) InteractionService.refreshAnimalTable(animalTable);
         if (animalTypeTab.isSelected()) InteractionService.refreshAnimalTypeTable(animalTypeTable);
         if (foodTab.isSelected()) InteractionService.refreshFoodTable(foodTable);
         if (overseersTab.isSelected()) InteractionService.refreshOverseersTable(overseersTable);
         if (zoneTab.isSelected()) InteractionService.refreshZoneTable(zoneTable);
-
     }
-
+    //скрытие элементов интерфейса
     public void hideElements(){
         addButton.setVisible(false);
         editButton.setVisible(false);
@@ -497,7 +492,7 @@ public class DatabaseOverviewController {
         datePicker1.setVisible(true);
         datePicker2.setVisible(true);
     }
-
+    //активация элементов интерфейса
     public void showElements(){
         try {
             if (!addButton.isVisible()) addButton.setVisible(true);
@@ -515,14 +510,11 @@ public class DatabaseOverviewController {
         }
 
     }
-
+    //обработка промежутка дат
     private ObservableList data = FXCollections.observableArrayList();
     public void collectStatics(){
-        data=foodTable.getItems();
-        for (int i=0; i<data.size();i++){
-           System.out.println(data.get(i));
-        }
-        reviewTable.setItems(data);
+        InteractionService.refreshReviewTable(foodTable,reviewTable,datePicker1.getValue().toString(),datePicker2.getValue().toString());
+
     }
 }
 

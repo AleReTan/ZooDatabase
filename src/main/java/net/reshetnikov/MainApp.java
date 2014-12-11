@@ -30,11 +30,8 @@ public class MainApp extends Application {
             Parent root = loader.getRoot();
 
             primaryStage.setTitle("Zoo Database");
-//            DatabaseOverviewController controller = new DatabaseOverviewController();
-//            controller.setMainApp(this);
             primaryStage.setScene(new Scene(root, 800, 600));
             primaryStage.show();
-            //showPersonOverview();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,13 +39,9 @@ public class MainApp extends Application {
 
     public static void showEditDialog(Object object) {
         try {
-//            FXMLLoader loader = new FXMLLoader();
-//            Parent root = FXMLLoader.load(getClass().getResource("fxml/editDialog.fxml"));
             FXMLLoader loader = new FXMLLoader();
             loader.load(MainApp.class.getClassLoader().getResourceAsStream("fxml/editDialog.fxml"));
             Parent root = loader.getRoot();
-            //loader.setLocation(MainApp.class.getResource("editDialog.fxml"));
-            //AnchorPane page = (AnchorPane) loader.load();
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
@@ -69,9 +62,7 @@ public class MainApp extends Application {
 
 
         } catch (IOException e) {
-            //System.out.print("[eq");
             e.printStackTrace();
-
         }
     }
 

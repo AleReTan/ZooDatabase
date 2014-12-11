@@ -86,7 +86,7 @@ public class EditDialogController {
             while (rs1.next()) {
                 data2.add(rs1.getString(2));
             }
-
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -206,7 +206,7 @@ public class EditDialogController {
                 break;
         }
     }
-
+    //обработка нажатия кнопки ОК
     @FXML
     private void handleOk() throws ParseException {
         Connection c;
@@ -231,7 +231,7 @@ public class EditDialogController {
                             if (animal.getAnimalType().equals(rs.getString(2))) animal.setAnimalTypeId(rs.getInt(1));
                             if (animal.getAnimalZone().equals(rs.getString(4))) animal.setZoneId(rs.getInt(3));
                         }
-
+                        c.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -259,6 +259,7 @@ public class EditDialogController {
                             preparedStatement.setInt(6, animal.getAnimalId());
                             preparedStatement.executeUpdate();
                         }
+                        c.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -279,7 +280,7 @@ public class EditDialogController {
                             preparedStatement.setInt(3, animalType.getFoodPerDay());
                             preparedStatement.executeUpdate();
                         } else {
-                            preparedStatement = c.prepareStatement("UPDATE animalsType SET AnimalTypeTitle=?, AnimalCount=?, FoodPerDay=? WHERE idAnimalType=?\n ");
+                            preparedStatement = c.prepareStatement("UPDATE animalType SET AnimalTypeTitle=?, AnimalCount=?, FoodPerDay=? WHERE idAnimalType=?\n ");
                             preparedStatement.setString(1, animalType.getAnimalTypeTitle());
                             if (animalType.getAnimalCount() == 0) preparedStatement.setNull(2, Types.INTEGER);
                             else preparedStatement.setInt(2, animalType.getAnimalCount());
@@ -287,6 +288,7 @@ public class EditDialogController {
                             preparedStatement.setInt(4, animalType.getAnimalTypeId());
                             preparedStatement.executeUpdate();
                         }
+                        c.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -298,7 +300,6 @@ public class EditDialogController {
                     food.setFoodCount(Integer.parseInt(field2.getText()));
                     food.setDateOfDelivery(dateFormat.parse(field3.getText()));
                     food.setAnimalTypeFood(comboBox1.getValue().toString());
-                    //food.setAnimalTypeFood(field4.getText());
                     try {
                         c = Service.openDB();
                         String SQL = "SELECT idAnimalType,AnimalTypeTitle from animalType";
@@ -306,7 +307,7 @@ public class EditDialogController {
                         while (rs.next()) {
                             if (food.getAnimalTypeFood().equals(rs.getString(2))) food.setAnimalTypeId(rs.getInt(1));
                         }
-
+                        c.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -315,7 +316,6 @@ public class EditDialogController {
                         if (food.getFoodId() == 0) {
                             preparedStatement = c.prepareStatement("INSERT INTO food (FoodTitle, FoodCount, DateOfDelivery, AnimalType_idAnimalType) VALUES (?, ?, ?, ?);\n ");
                             preparedStatement.setString(1, food.getFoodTitle());
-
                             if (food.getFoodCount() == 0) preparedStatement.setNull(2, Types.INTEGER);
                             else preparedStatement.setInt(2, food.getFoodCount());
                             preparedStatement.setDate(3, new java.sql.Date(food.getDateOfDelivery().getTime()));
@@ -331,6 +331,7 @@ public class EditDialogController {
                             preparedStatement.setInt(5, food.getFoodId());
                             preparedStatement.executeUpdate();
                         }
+                        c.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -344,7 +345,6 @@ public class EditDialogController {
                     overseer.setAgeOverseer(Integer.parseInt(field4.getText()));
                     overseer.setIsSick(Boolean.parseBoolean(field5.getText()));
                     overseer.setOverseerZone(comboBox2.getValue().toString());
-                    //overseer.setOverseerZone(field6.getText());
                     try {
                         c = Service.openDB();
                         String SQL = "SELECT idZone,ZoneTitle from zone";
@@ -352,7 +352,7 @@ public class EditDialogController {
                         while (rs.next()) {
                             if (overseer.getOverseerZone().equals(rs.getString(2))) overseer.setZoneId(rs.getInt(1));
                         }
-
+                        c.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -382,6 +382,7 @@ public class EditDialogController {
                             preparedStatement.setInt(7, overseer.getOverseerId());
                             preparedStatement.executeUpdate();
                         }
+                        c.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -407,6 +408,7 @@ public class EditDialogController {
                             preparedStatement.setInt(3, zone.getZoneId());
                             preparedStatement.executeUpdate();
                         }
+                        c.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -418,12 +420,12 @@ public class EditDialogController {
             dialogStage.close();
         }
     }
-
+    //обработка нажатия кнопки отменить
     @FXML
     private void handleCancel() {
         dialogStage.close();
     }
-
+    //проверка на правильность заполнения полей
     private boolean isInputValid() {
         String errorMessage = "";
         switch (className) {

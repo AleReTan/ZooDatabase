@@ -9,10 +9,8 @@ import java.sql.SQLException;
 
 public class Service {
 
-    public static Connection connection = null;                        //Соединение с БД
-    /*public static Statement statement = null;                          //Для хранения запросов
-    public static PreparedStatement preparedStatement = null;          //Предварительно компилирует запрос
-    public static ResultSet resultSet = null;                          //Результат запросов*/
+    //соединение с БД
+    public static Connection connection = null;
 
     //подключение к БД
     public static Connection openDB() {
@@ -47,21 +45,12 @@ public class Service {
             if (connection != null) {
                 connection.close();
             }
-            /*if (statement != null) {
-                statement.close();
-            }
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (resultSet != null) {
-                resultSet.close();
-            }*/
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    //получение соединения
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
         if (connection != null && !connection.isClosed())
             return connection;

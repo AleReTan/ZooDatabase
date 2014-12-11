@@ -4,19 +4,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import net.reshetnikov.Logic.*;
-
+import org.controlsfx.dialog.Dialogs;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-
-/**
- * Created by Александр on 13.11.2014.
- */
 public class InteractionService {
-
     private static ObservableList data;
+    private static ObservableList data1;
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+    //обновление таблицы животных
     public static void refreshAnimalTable(TableView tableView) {
         Connection c;
         try {
@@ -46,6 +47,7 @@ public class InteractionService {
         }
     }
 
+    //обновление таблицы типов животных
     public static void refreshAnimalTypeTable(TableView tableView) {
         Connection c;
         try {
@@ -64,11 +66,13 @@ public class InteractionService {
                 data.add(animalType);
             }
             tableView.setItems(data);
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    //обновление таблицы пищи
     public static void refreshFoodTable(TableView tableView) {
         Connection c;
         try {
@@ -90,11 +94,13 @@ public class InteractionService {
                 data.add(food);
             }
             tableView.setItems(data);
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    //обновление таблицы наблюдателей
     public static void refreshOverseersTable(TableView tableView) {
         Connection c;
         try {
@@ -118,11 +124,13 @@ public class InteractionService {
                 data.add(overseer);
             }
             tableView.setItems(data);
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    //обновление таблицы зон
     public static void refreshZoneTable(TableView tableView) {
         Connection c;
         try {
@@ -140,11 +148,51 @@ public class InteractionService {
                 data.add(zone);
             }
             tableView.setItems(data);
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    //обновление таблицы обзора
+    public static void refreshReviewTable(TableView tableView1,TableView tableView2,String strDate1,String strDate2){
+        data = FXCollections.observableArrayList();
+        data1 = FXCollections.observableArrayList();
+        int i = 1;
+        Date date1 = new Date();
+        Date date2 = new Date();
+        try {
+            date1 = dateFormat.parse(strDate1);
+            date2 = dateFormat.parse(strDate2);
+        }
+        catch (ParseException e){
+            e.printStackTrace();
+        }
+        if (date1.compareTo(date2)>0){
+            Dialogs.create()
+                    .title("Date error")
+                    .masthead("Date is not valid")
+                    .message("Please select a valid date.")
+                    .showWarning();
+        }
+        data=tableView1.getItems();
+        for (Object aData : data) {
+            Food food =(Food)aData;
+            Review review = new Review();
+            review.setReviewFoodTitle(food.getFoodTitle());
+            review.setReviewFoodCount(food.getFoodCount());
+            review.setReviewDateOfDelivery(food.getDateOfDelivery());
+            review.setReviewAimalTypeFood(food.getAnimalTypeFood());
+            if ((review.getReviewDateOfDelivery().compareTo(date1) >= 0) && (review.getReviewDateOfDelivery().compareTo(date2) <= 0)) {
+                review.setReviewNumber(i++);
+                data1.add(review);
+            }
+
+        }
+        tableView2.setItems(data1);
+    }
+
+    //удаление животного
     public static void deleteAnimal(Animal animal) {
         Connection c;
         PreparedStatement preparedStatement;
@@ -153,12 +201,14 @@ public class InteractionService {
             preparedStatement = c.prepareStatement("delete from animals where idAnimals = ?");
             preparedStatement.setInt(1, animal.getAnimalId());
             preparedStatement.executeUpdate();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+    //удаление типа животных
     public static void deleteAnimalType(AnimalType animalType) {
         Connection c;
         PreparedStatement preparedStatement;
@@ -167,12 +217,14 @@ public class InteractionService {
             preparedStatement = c.prepareStatement("delete from animalType where idAnimalType = ?");
             preparedStatement.setInt(1, animalType.getAnimalTypeId());
             preparedStatement.executeUpdate();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+    //удаление пищи
     public static void deleteFood(Food food) {
         Connection c;
         PreparedStatement preparedStatement;
@@ -181,12 +233,14 @@ public class InteractionService {
             preparedStatement = c.prepareStatement("delete from food where idFood = ?");
             preparedStatement.setInt(1, food.getFoodId());
             preparedStatement.executeUpdate();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+    //удаление наблюдателя
     public static void deleteOverseer(Overseer overseer) {
         Connection c;
         PreparedStatement preparedStatement;
@@ -195,12 +249,14 @@ public class InteractionService {
             preparedStatement = c.prepareStatement("delete from overseers where idOverseers = ?");
             preparedStatement.setInt(1, overseer.getOverseerId());
             preparedStatement.executeUpdate();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+    //удаление зоны
     public static void deleteZone(Zone zone) {
         Connection c;
         PreparedStatement preparedStatement;
@@ -209,10 +265,10 @@ public class InteractionService {
             preparedStatement = c.prepareStatement("delete from zone where idZone = ?");
             preparedStatement.setInt(1, zone.getZoneId());
             preparedStatement.executeUpdate();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-
 }

@@ -1,8 +1,5 @@
 package net.reshetnikov.Logic;
 
-/**
- * Created by Александр on 13.11.2014.
- */
 public class Zone {
 
     private int zoneNumber;

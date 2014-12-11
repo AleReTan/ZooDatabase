@@ -2,11 +2,7 @@ package net.reshetnikov.Logic;
 
 import java.util.Date;
 
-/**
- * Created by Александр on 13.11.2014.
- */
 public class Review {
-
     private int reviewNumber;
     private String reviewFoodTitle;
     private int reviewFoodCount;
